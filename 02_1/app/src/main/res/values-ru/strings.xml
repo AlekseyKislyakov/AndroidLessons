@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">02_1</string>
+    <string name="pushkins_verse">  Воспоминаньями смущенный,\n
+                                    Исполнен сладкою тоской,\n
+                                    Сады прекрасные, под сумрак ваш священный\n
+                                    Вхожу с поникшею главой.</string>
+    <string name="pushkins_sign"> Подпись Пушкина</string>
+</resources>
