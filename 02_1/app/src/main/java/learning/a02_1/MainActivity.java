@@ -22,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(final Configuration newConfig){
         super.onConfigurationChanged(newConfig);
-
-        final String newLocale = newConfig.locale.toString();
         Locale.setDefault(newConfig.locale);
     }
 
