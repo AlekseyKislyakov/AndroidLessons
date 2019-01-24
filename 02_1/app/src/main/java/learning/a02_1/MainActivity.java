@@ -8,7 +8,7 @@ import android.os.Bundle;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    private String mLocale = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mLocale = getResources().getConfiguration().locale.toString();
     }
 
     @Override
