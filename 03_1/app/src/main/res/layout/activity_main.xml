@@ -1,37 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:theme="@style/AppTheme"
 
+    tools:context=".MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleMarginEnd="64dp"
+            android:fitsSystemWindows="true">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="#ff0000"
+                android:fitsSystemWindows="true"
+                app:layout_collapseMode="parallax">
+
+                <View
+                    android:id="@+id/myRectangleView"
+                    android:layout_width="match_parent"
+                    android:layout_height="104dp"
+                    android:background="@drawable/rectangle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/avatar_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_alignStart="@+id/myRectangleView"
+                    android:layout_alignTop="@+id/myRectangleView"
+                    android:layout_alignBottom="@+id/myRectangleView"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:src="@drawable/img_profile_spechialist"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/profile_text"
+                    android:layout_width="152dp"
+                    android:layout_height="44dp"
+
+
+                    android:layout_alignTop="@+id/myRectangleView"
+                    android:layout_alignEnd="@+id/myRectangleView"
+                    android:layout_alignBottom="@+id/myRectangleView"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_toEndOf="@+id/avatar_icon"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/myRectangleView"
+                    app:layout_constraintStart_toEndOf="@+id/avatar_icon"
+                    app:layout_constraintTop_toTopOf="@+id/myRectangleView" />
+            </android.support.constraint.ConstraintLayout>
 
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="установить"
-            app:title="установить">
+            app:title="Личный профиль"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:titleTextColor="#414141"
+            android:background="#ffcd10"
+            android:id="@+id/toolbar"
+            app:layout_collapseMode="pin">
 
-        </android.support.v7.widget.Toolbar>
+            </android.support.v7.widget.Toolbar>
+            </android.support.design.widget.CollapsingToolbarLayout>
 
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:background="#ff0000"
-            ></RelativeLayout>
 
 
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:clipToPadding="false">
 
 
         <android.support.design.widget.TextInputLayout
@@ -48,11 +113,13 @@
                 android:clickable="false"
                 android:focusable="false"
                 android:hint="установить"
-                android:text="установить"/>
+                android:text="установить" />
 
         </android.support.design.widget.TextInputLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
 
-</LinearLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>
