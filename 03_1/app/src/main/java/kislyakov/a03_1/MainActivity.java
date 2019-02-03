@@ -1,21 +1,15 @@
 package kislyakov.a03_1;
 
-import android.content.Intent;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,38 +22,22 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        LinearLayout container = findViewById(R.id.linear_scroll);
-        container.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        container.setOrientation(LinearLayout.VERTICAL);
+        TextView profileCard = findViewById(R.id.profile_text);
+        profileCard.setText("Карта №12345678\nСпециалист");
 
-        NestedScrollView scrollView = findViewById(R.id.nestedscrollview);
-        scrollView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        //scrollView.addView(container);
+        TextView userName = findViewById(R.id.name_textView);
+        userName.setText("Василий");
 
-        ArrayList<CardView> headers = new ArrayList();
+        TextView userSurname = findViewById(R.id.surname_textView);
+        userSurname.setText("Уткин");
 
-        CardView headerCard = new CardView(this);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, 0, 0, 10);
-        TextView tw = new TextView(this);
-        tw.setText("hallo hallo");
+        TextView userEmail = findViewById(R.id.email_textView);
+        userEmail.setText("abc@gmail.com");
 
-        headerCard.setLayoutParams(params);
-        headerCard.addView(tw);
-        container.addView(headerCard);
-        //Start parsing and creating the layout
+        TextView userRegion = findViewById(R.id.region_textView);
+        userSurname.setText("Мордвиния");
 
 
-        setContentView(scrollView);
-
-        //getSupportActionBar().setTitle("Petrovich club");
-        //toolBar.setTitleTextColor(android.graphics.Color.parseColor("#414141"));
-        /*toolBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });*/
     }
 
 
@@ -74,11 +52,11 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
 
         if (id == R.id.action_pencil) {
-            Toast.makeText(this, "Pencil is clicked", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Pencil is clicked", Toast.LENGTH_SHORT).show();
             return true;
         }
         else if (id == android.R.id.home){
-            Toast.makeText(this, "Back is clicked", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Back is clicked", Toast.LENGTH_SHORT).show();
             return true;
         }
 
@@ -93,5 +71,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    public void onClickPencilCV(View view) {
+        Toast.makeText(this, "Region pencil is clicked", Toast.LENGTH_SHORT).show();
+    }
 
+    public void onClickLogout(View view) {
+        Toast.makeText(this, "Logout is clicked", Toast.LENGTH_SHORT).show();
+    }
 }

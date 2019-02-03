@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ExpandedAppBar" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">24dp</item>
+        <item name="android:textColor">#414141</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+</resources>

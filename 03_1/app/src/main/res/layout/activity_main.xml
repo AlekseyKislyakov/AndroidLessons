@@ -15,12 +15,17 @@
         android:layout_width="match_parent"
         android:layout_height="250dp">
 
+
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="exitUntilCollapsed|scroll"
-            app:title="App title"
+            app:title="Личный профиль"
+            android:theme="@style/AppTheme"
+            app:expandedTitleTextAppearance="@style/ExpandedAppBar"
+            app:collapsedTitleTextAppearance="@style/AppTheme"
+
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="64dp">
@@ -63,15 +68,14 @@
                     android:id="@+id/profile_text"
                     android:layout_width="152dp"
                     android:layout_height="44dp"
-
-
                     android:layout_alignTop="@+id/myRectangleView"
                     android:layout_alignEnd="@+id/myRectangleView"
                     android:layout_alignBottom="@+id/myRectangleView"
                     android:layout_marginStart="32dp"
                     android:layout_marginBottom="8dp"
                     android:layout_toEndOf="@+id/avatar_icon"
-                    android:textSize="14sp"
+                    android:gravity="left|center_vertical"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="@+id/myRectangleView"
                     app:layout_constraintStart_toEndOf="@+id/avatar_icon"
                     app:layout_constraintTop_toTopOf="@+id/myRectangleView" />
@@ -114,9 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-                app:cardBackgroundColor="#B39DDB"
-                app:cardCornerRadius="2dp"
-                app:cardElevation="3dp">
+                style="@style/CardViewStyle">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -124,7 +126,217 @@
                     android:padding="8dp"
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
-                    android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."/>
+                    android:text="Личные данные"
+                    android:textColor="@color/colorSquash"
+                    />
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+
+                style="@style/CardViewStyle">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="normal"
+                    android:lineSpacingExtra="6sp"
+                    android:padding="8dp"
+                    android:text="Имя"
+                    android:textColor="@color/colorWarmGrey"
+                    />
+
+                <TextView
+                    android:id="@+id/name_textView"
+                    android:layout_width="wrap_content"
+                    android:padding="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="sans-serif"
+                    android:lineSpacingExtra="8sp"
+                    android:text="1234"
+                    android:textColor="@color/colorGreyishBrown"
+                    android:textSize="16sp"
+
+                    android:textStyle="normal" />
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+
+            style="@style/CardViewStyle">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif"
+                android:textStyle="normal"
+                android:lineSpacingExtra="6sp"
+                android:padding="8dp"
+                android:text="Фамилия"
+                android:textColor="@color/colorWarmGrey"
+                />
+
+            <TextView
+                android:id="@+id/surname_textView"
+                android:layout_width="wrap_content"
+                android:padding="8dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif"
+                android:lineSpacingExtra="8sp"
+                android:text="213"
+                android:textColor="@color/colorGreyishBrown"
+                android:textSize="16sp"
+
+                android:textStyle="normal" />
+
+        </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+
+                style="@style/CardViewStyle">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="normal"
+                    android:lineSpacingExtra="6sp"
+                    android:padding="8dp"
+                    android:text="E-mail"
+                    android:textColor="@color/colorWarmGrey"
+                    />
+
+                <TextView
+                    android:id="@+id/email_textView"
+                    android:layout_width="wrap_content"
+                    android:padding="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="sans-serif"
+                    android:lineSpacingExtra="8sp"
+                    android:text="213"
+                    android:textColor="@color/colorGreyishBrown"
+                    android:textSize="16sp"
+
+                    android:textStyle="normal" />
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+
+                style="@style/CardViewStyle">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="normal"
+                    android:lineSpacingExtra="6sp"
+                    android:padding="8dp"
+                    android:text="Логин"
+                    android:textColor="@color/colorWarmGrey"
+                    />
+
+                <TextView
+                    android:id="@+id/login_textView"
+                    android:layout_width="wrap_content"
+                    android:padding="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="sans-serif"
+                    android:lineSpacingExtra="8sp"
+                    android:text="123456"
+                    android:textColor="@color/colorGreyishBrown"
+                    android:textSize="16sp"
+
+                    android:textStyle="normal" />
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+
+                style="@style/CardViewStyle">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="normal"
+                    android:lineSpacingExtra="6sp"
+                    android:padding="8dp"
+                    android:text="Ваш регион"
+                    android:textColor="@color/colorWarmGrey"
+                    />
+
+                <TextView
+                    android:id="@+id/region_textView"
+                    android:layout_width="wrap_content"
+                    android:padding="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="sans-serif"
+                    android:lineSpacingExtra="8sp"
+                    android:text="Мордвиния"
+                    android:textColor="@color/colorGreyishBrown"
+                    android:textSize="16sp"
+
+                    android:textStyle="normal" />
+                <Button
+                    android:layout_gravity="center_vertical|right"
+                    android:id="@+id/region_button"
+                    android:layout_marginEnd="11dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:onClick="onClickPencilCV"
+                    android:background="@drawable/ic_edit_black_24_px"/>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                style="@style/CardViewStyle">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:padding="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="63dp"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="sans-serif"
+                    android:lineSpacingExtra="8sp"
+                    android:text="Выйти из аккаунта"
+                    android:textColor="@color/colorGreyishBrown"
+                    android:textSize="16sp"
+
+                    android:textStyle="normal" />
+                <Button
+                    android:layout_gravity="center_vertical|left"
+                    android:id="@+id/logout_button"
+                    android:layout_marginLeft="8dp"
+                    android:layout_width="21dp"
+                    android:layout_height="18dp"
+                    android:onClick="onClickLogout"
+
+
+                    android:background="@drawable/ic_menu_exit"/>
 
             </android.support.v7.widget.CardView>
 

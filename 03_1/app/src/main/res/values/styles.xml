@@ -10,6 +10,7 @@
         <item name="actionMenuTextColor">#414141</item>
         <item name="colorControlNormal">#414141</item>
 
+
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
