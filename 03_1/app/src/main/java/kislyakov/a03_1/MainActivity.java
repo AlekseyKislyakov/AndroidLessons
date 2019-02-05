@@ -31,11 +31,14 @@ public class MainActivity extends AppCompatActivity {
         TextView userSurname = findViewById(R.id.surname_textView);
         userSurname.setText("Уткин");
 
+        TextView userLogin = findViewById(R.id.login_textView);
+        userLogin.setText("abc@gmail.com");
+
         TextView userEmail = findViewById(R.id.email_textView);
         userEmail.setText("abc@gmail.com");
 
         TextView userRegion = findViewById(R.id.region_textView);
-        userSurname.setText("Мордвиния");
+        userRegion.setText("Мордвиния");
 
 
     }

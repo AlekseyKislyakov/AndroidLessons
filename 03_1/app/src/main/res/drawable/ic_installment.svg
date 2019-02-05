@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>6B727F3D-58D5-4656-A10C-427332C03F56</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="дизайн" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Для-школы-разрабов" transform="translate(-16.000000, -235.000000)">
+            <g id="ic_installment" transform="translate(16.000000, 235.000000)">
+                <path d="M29.4445749,22.5 C32.152714,23.921338 34,26.7605656 34,30.03125 L34,38 L17,38 L17,30.03125 C17,26.7605656 18.847286,23.921338 21.5554251,22.5 C18.847286,21.078662 17,18.2394344 17,14.96875 L17,7 L34,7 L34,14.96875 C34,18.2394344 32.152714,21.078662 29.4445749,22.5 Z" id="Combined-Shape" fill="#6CDDE1"></path>
+                <g id="Group-24" transform="translate(12.000000, 10.000000)">
+                    <path d="M17.55,0.5 L1.45,0.5 L1.45,7.88333333 C1.45,10.9143623 3.13962273,13.6450737 5.7785738,15.023482 L6.62704703,15.4666667 L5.7785738,15.9098513 C3.13962273,17.2882596 1.45,20.018971 1.45,23.05 L1.45,30.4333333 L17.55,30.4333333 L17.55,23.05 C17.55,20.018971 15.8603773,17.2882596 13.2214262,15.9098513 L12.372953,15.4666667 L13.2214262,15.023482 C15.8603773,13.6450737 17.55,10.9143623 17.55,7.88333333 L17.55,0.5 Z" id="Combined-Shape" stroke="#2E2E2E"></path>
+                    <rect id="Rectangle-20" fill="#2E2E2E" x="0" y="0" width="19" height="1" rx="0.5"></rect>
+                    <rect id="Rectangle-20-Copy" fill="#2E2E2E" x="0" y="29.9666667" width="19" height="1" rx="0.5"></rect>
+                    <path d="M8.64182773,8.21666667 L15.2374985,8.21666667 C15.2374985,11.1529806 12.8981863,13.5333333 10.0124985,13.5333333 L8.98750155,13.5333333 C6.10181373,13.5333333 3.76250155,11.1529806 3.76250155,8.21666667 L6.0792965,8.21666667" id="Rectangle-16-Copy-4" stroke="#2E2E2E" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M3.35,20.8 L3.35,22.35 C3.35,25.7465512 6.10344879,28.5 9.5,28.5 C12.8965512,28.5 15.65,25.7465512 15.65,22.35 L15.65,20.8 L3.35,20.8 Z" id="Rectangle-16-Copy-5" stroke="#2E2E2E" transform="translate(9.500000, 24.650000) scale(1, -1) translate(-9.500000, -24.650000) "></path>
+                    <path d="M9.53834496,15.4879587 L9.53834496,17.9190976" id="Path-5" stroke="#2E2E2E" stroke-linecap="round"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
