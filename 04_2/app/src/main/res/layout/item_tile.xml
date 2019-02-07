@@ -20,7 +20,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical"
-    android:padding="@dimen/tile_padding">
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/header_pic"
