@@ -8,14 +8,12 @@
         android:id="@+id/ic_info_white"
         android:orderInCategory="100"
         android:title="ic_info_white"
-
         android:icon="@drawable/ic_info_white"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/ic_home"
         android:orderInCategory="200"
-        android:title="ic_home"
-
+        android:title="ic_home_menu"
         android:icon="@drawable/ic_home"
         app:showAsAction="ifRoom"/>
 </menu>

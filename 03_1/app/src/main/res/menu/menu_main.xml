@@ -11,7 +11,4 @@
 
         android:icon="@drawable/ic_edit_black_24_px"
         app:showAsAction="ifRoom"/>
-
-
-
 </menu>
