@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         numbersAdapter = new NumbersAdapter(10, new NumbersAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String item, View v) {
-                Snackbar.make(v,item,Toast.LENGTH_SHORT).setAction("Action", null).show();;
+                Snackbar.make(v,item,Snackbar.LENGTH_SHORT).setAction("Action", null).show();;
 
             }
         });
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
             // create and show the alert dialog
             AlertDialog dialog = builder.create();
-            dialog.show();;
+            dialog.show();
             return true;
         }
         else if (id == R.id.ic_home){
