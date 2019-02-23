@@ -14,7 +14,7 @@ import android.widget.Button;
  */
 public class Fragment_item3 extends Fragment implements View.OnClickListener {
 
-
+    private boolean bannerPressed = false;
     public Fragment_item3() {
         // Required empty public constructor
     }
@@ -36,12 +36,34 @@ public class Fragment_item3 extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Fragment ViewPagerFragment = null;
+        Button b = (Button) v.findViewById(R.id.button_viewpager);
         switch (v.getId()) {
-            case R.id.button_viewpager:
-                ViewPagerFragment = new Fragment_ViewPager();
+            case R.id.button_viewpager:{
+
+                if(!bannerPressed){
+                    ViewPagerFragment = new Fragment_ViewPager();
+                    getChildFragmentManager().beginTransaction().replace(R.id.viewpager_container,
+                            ViewPagerFragment).commit();
+                    bannerPressed = true;
+
+                    b.setText("СВЕРНУТЬ БАННЕР");
+                }
+                else {
+                    if(getChildFragmentManager().findFragmentById(R.id.viewpager_container) != null){
+                        getChildFragmentManager().beginTransaction().
+                                remove(getChildFragmentManager().findFragmentById(R.id.viewpager_container)).commit();
+                        bannerPressed = false;
+
+                        b.setText("ПОКАЗАТЬ БАННЕР");
+                    }
+
+                }
+
+
                 break;
+            }
+
         }
-        getChildFragmentManager().beginTransaction().replace(R.id.viewpager_container,
-                ViewPagerFragment).commit();
+
     }
 }
