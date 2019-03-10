@@ -16,15 +16,17 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import kislyakov.a07_1.DetailActivity;
 import kislyakov.a07_1.R;
 import kislyakov.a07_1.adapters.BridgesAdapter;
 import kislyakov.a07_1.models.BridgeResponse;
+import kislyakov.a07_1.models.Object;
 
 
 public class MainActivity extends AppCompatActivity implements MainViewInterface {
 
-    @BindView(R.id.rvMovies)
-    RecyclerView rvMovies;
+    @BindView(R.id.rvBridges)
+    RecyclerView rvBridges;
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
     private void setupViews(){
         //Added in Part 2 of the series
         setSupportActionBar(toolbar);
-        rvMovies.setLayoutManager(new LinearLayoutManager(this));
+        rvBridges.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void getMovieList() {
@@ -89,8 +91,15 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
     public void displayBridges(BridgeResponse bridgeResponse) {
         if(bridgeResponse!=null) {
             //Log.d(TAG,movieResponse.getResults().get(1).getTitle());
-            adapter = new BridgesAdapter(bridgeResponse.getObjects(), MainActivity.this);
-            rvMovies.setAdapter(adapter);
+            adapter = new BridgesAdapter(bridgeResponse.getObjects(), MainActivity.this, new BridgesAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(int positionItem) {
+                    Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                    intent.putExtra(Intent.EXTRA_INDEX, positionItem);
+                    startActivity(intent);
+                }
+            });
+            rvBridges.setAdapter(adapter);
         }else{
             Log.d(TAG,"Movies response null");
         }
@@ -117,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
         int id = item.getItemId();
         if(id == R.id.search){
             showToast("Search Clicked");
+            Intent intent = new Intent(this, DetailActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

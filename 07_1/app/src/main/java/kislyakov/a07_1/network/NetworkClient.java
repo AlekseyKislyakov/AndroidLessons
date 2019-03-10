@@ -24,7 +24,7 @@ public class NetworkClient {
             OkHttpClient okHttpClient = builder.build();
 
             retrofit = new Retrofit.Builder()
-                        .baseUrl("http://gdemost.handh.ru/api/v1/")
+                        .baseUrl("http://gdemost.handh.ru/")
                         .addConverterFactory(GsonConverterFactory.create())
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                         .client(okHttpClient)

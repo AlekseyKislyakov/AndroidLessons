@@ -124,9 +124,6 @@ public class NumbersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     NumberViewHolder viewHolderDetail3 = (NumberViewHolder)viewHolder;
                     viewHolderDetail3.bind(avatars[i], headers[i], descriptions[i], listener);
                     break;
-
-
-
         }
     }
 

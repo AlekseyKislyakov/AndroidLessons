@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
-        tools:context="in.androidmate.anujgupta.movify.ui.main.MainActivity"
+        tools:context=".main.MainActivity"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
         <include
@@ -17,7 +17,7 @@
             layout="@layout/toolbar" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvMovies"
+            android:id="@+id/rvBridges"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

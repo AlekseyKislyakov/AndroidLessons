@@ -2,15 +2,14 @@ package kislyakov.a07_1.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,32 +20,37 @@ import java.util.TimeZone;
 
 import kislyakov.a07_1.R;
 import kislyakov.a07_1.models.Divorce;
-import kislyakov.a07_1.models.Meta;
 import kislyakov.a07_1.models.Object;
 
 /**
  * Created by anujgupta on 26/12/17.
  */
 
-public class BridgesAdapter extends RecyclerView.Adapter<BridgesAdapter.MoviesHolder> {
+public class BridgesAdapter extends RecyclerView.Adapter<BridgesAdapter.BridgesHolder> {
 
     List<Object> bridgeList;
     Context context;
+    final OnItemClickListener listener;
 
-    public BridgesAdapter(List<Object> bridgeList, Context context) {
+    public interface OnItemClickListener {
+        void onItemClick(int positionItem);
+    }
+
+    public BridgesAdapter(List<Object> bridgeList, final Context context, OnItemClickListener listener) {
         this.bridgeList = bridgeList;
         this.context = context;
+        this.listener = listener;
     }
 
     @Override
-    public MoviesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BridgesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.row_bridge, parent, false);
-        MoviesHolder mh = new MoviesHolder(v);
+        BridgesHolder mh = new BridgesHolder(v);
         return mh;
     }
 
     @Override
-    public void onBindViewHolder(MoviesHolder holder, int position) {
+    public void onBindViewHolder(BridgesHolder holder, int position) {
 
         holder.bridgeTitle.setText(bridgeList.get(position).getName());
         List<Divorce> divorces = bridgeList.get(position).getDivorces();
@@ -74,7 +78,7 @@ public class BridgesAdapter extends RecyclerView.Adapter<BridgesAdapter.MoviesHo
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("H:mm");
             dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-            if(start.getTime() - ((now.getTime()+10800000)%86400000) < 3600000)
+            if(stop.getTime() > ((now.getTime()+10800000)%86400000) && start.getTime() - ((now.getTime()+10800000)%86400000) < 3600000)
             {
                 state -= 1; // желтый мост
             }
@@ -103,7 +107,7 @@ public class BridgesAdapter extends RecyclerView.Adapter<BridgesAdapter.MoviesHo
         else {
             holder.ivBridgeStatus.setBackgroundResource(R.drawable.ic_brige_late);
         }
-
+        holder.bind(position, listener);
         //Glide.with(context).load("https://image.tmdb.org/t/p/w500/" + movieList.get(position).getPosterPath()).into(holder.ivMovie);
     }
 
@@ -112,18 +116,28 @@ public class BridgesAdapter extends RecyclerView.Adapter<BridgesAdapter.MoviesHo
         return bridgeList.size();
     }
 
-    public class MoviesHolder extends RecyclerView.ViewHolder {
+    public class BridgesHolder extends RecyclerView.ViewHolder {
 
         TextView bridgeTitle, bridgeTime;
         Button kolokolBridge;
         ImageView ivBridgeStatus;
 
-        public MoviesHolder(View v) {
+        public BridgesHolder(View v) {
             super(v);
             bridgeTitle = (TextView) v.findViewById(R.id.bridgeTitle);
             bridgeTime = (TextView) v.findViewById(R.id.bridgeTime);
             kolokolBridge = (Button) v.findViewById(R.id.kolokolButton);
             ivBridgeStatus = (ImageView) v.findViewById(R.id.bridgeStatusImage);
+
         }
+        public void bind(final int positionItem, final OnItemClickListener listener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(positionItem);
+                }
+            });
+        }
+
     }
 }
