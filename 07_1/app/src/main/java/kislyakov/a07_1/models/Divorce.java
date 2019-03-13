@@ -4,7 +4,10 @@ package kislyakov.a07_1.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Divorce {
+import java.io.Serializable;
+
+
+public class Divorce implements Serializable {
 
     @SerializedName("end")
     @Expose

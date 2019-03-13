@@ -49,59 +49,23 @@ public class BridgesAdapter extends RecyclerView.Adapter<BridgesAdapter.BridgesH
         return mh;
     }
 
+
     @Override
     public void onBindViewHolder(BridgesHolder holder, int position) {
 
         holder.bridgeTitle.setText(bridgeList.get(position).getName());
         List<Divorce> divorces = bridgeList.get(position).getDivorces();
-        String divorcesStr = "";
-        int state = 1;
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-        Date start = new Date(System.currentTimeMillis());
-        Date stop = new Date(System.currentTimeMillis());
-        Date now = Calendar.getInstance().getTime();
 
-
-        for (int i = 0; i < divorces.size(); i++)
-        {
-            try {
-                start = sdf.parse(divorces.get(i).getStart());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            try {
-                stop = sdf.parse(divorces.get(i).getEnd());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("H:mm");
-            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-            if(stop.getTime() > ((now.getTime()+10800000)%86400000) && start.getTime() - ((now.getTime()+10800000)%86400000) < 3600000)
-            {
-                state -= 1; // желтый мост
-            }
-
-            if(stop.getTime() > ((now.getTime()+10800000)%86400000) && ((now.getTime()+10800000)%86400000) > start.getTime())
-            {
-                state -= 2; // красный мост
-            }
-
-            //to convert Date to String, use format method of SimpleDateFormat class.
-            divorcesStr += dateFormat.format(start);
-            divorcesStr += " - ";
-            divorcesStr += dateFormat.format(stop);
-            divorcesStr += "   ";
-        }
+        String divorcesStr = DivorceConverter(divorces);
+        int openState = DivorceState(divorces);
 
         holder.bridgeTime.setText(divorcesStr);
 
         holder.kolokolBridge.setBackgroundResource(R.drawable.ic_kolocol_on);
-        if(state > 0){
+        if(openState > 0){
             holder.ivBridgeStatus.setBackgroundResource(R.drawable.ic_brige_normal);
         }
-        else if(state == 0){
+        else if(openState == 0){
             holder.ivBridgeStatus.setBackgroundResource(R.drawable.ic_brige_soon);
         }
         else {
@@ -140,4 +104,70 @@ public class BridgesAdapter extends RecyclerView.Adapter<BridgesAdapter.BridgesH
         }
 
     }
+
+    public String DivorceConverter (List<Divorce> divorces){
+        String divorcesStr = "";
+
+        SimpleDateFormat incomingTime = new SimpleDateFormat("HH:mm:ss");
+
+        Date start = new Date();
+        Date stop = new Date();
+
+        for (int i = 0; i < divorces.size(); i++)
+        {
+            try {
+                start = incomingTime.parse(divorces.get(i).getStart());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            try {
+                stop = incomingTime.parse(divorces.get(i).getEnd());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            SimpleDateFormat outputDateFormat = new SimpleDateFormat("H:mm");
+
+            divorcesStr += outputDateFormat.format(start);
+            divorcesStr += " - ";
+            divorcesStr += outputDateFormat.format(stop);
+            divorcesStr += "   ";
+        }
+        return divorcesStr;
+    }
+
+    public int DivorceState(List<Divorce> divorces){
+        int state = 1;
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Date start = new Date();
+        Date stop = new Date();
+        Date now = Calendar.getInstance().getTime();
+
+        for (int i = 0; i < divorces.size(); i++)
+        {
+            try {
+                start = sdf.parse(divorces.get(i).getStart());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            try {
+                stop = sdf.parse(divorces.get(i).getEnd());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            if(stop.getTime() > ((now.getTime()+10800000)%86400000) && start.getTime() - ((now.getTime()+10800000)%86400000) < 3600000)
+            {
+                state -= 1; // желтый мост
+            }
+
+            if(stop.getTime() > ((now.getTime()+10800000)%86400000) && ((now.getTime()+10800000)%86400000) > start.getTime())
+            {
+                state -= 2; // красный мост
+            }
+        }
+        return state;
+    }
+
 }

@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import kislyakov.a07_1.DetailActivity;
+import kislyakov.a07_1.DetailObject;
 import kislyakov.a07_1.R;
 import kislyakov.a07_1.adapters.BridgesAdapter;
 import kislyakov.a07_1.models.BridgeResponse;
@@ -31,48 +32,45 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
-    //Added in Part 2 of the series
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     private String TAG = "MainActivity";
     RecyclerView.Adapter adapter;
     MainPresenter mainPresenter;
-    //RecyclerView rvMovies;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        //rvMovies = (RecyclerView) findViewById(R.id.rvMovies);
         setupMVP();
         setupViews();
-        getMovieList();
+        getBridgeList();
     }
-
 
 
     private void setupMVP() {
         mainPresenter = new MainPresenter(this);
     }
 
-    private void setupViews(){
+    private void setupViews() {
         //Added in Part 2 of the series
         setSupportActionBar(toolbar);
         rvBridges.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void getMovieList() {
+    private void getBridgeList() {
 
-     mainPresenter.getBridges();
+        mainPresenter.getBridges();
 
     }
 
 
-
     @Override
     public void showToast(String str) {
-        Toast.makeText(MainActivity.this,str,Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, str, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -86,22 +84,24 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
     }
 
 
-
     @Override
-    public void displayBridges(BridgeResponse bridgeResponse) {
-        if(bridgeResponse!=null) {
+    public void displayBridges(final BridgeResponse bridgeResponse) {
+        if (bridgeResponse != null) {
             //Log.d(TAG,movieResponse.getResults().get(1).getTitle());
             adapter = new BridgesAdapter(bridgeResponse.getObjects(), MainActivity.this, new BridgesAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(int positionItem) {
+                    Object object = bridgeResponse.getObjects().get(positionItem);
+                    DetailObject detailObject = new DetailObject(object.getPhotoOpen(), object.getPhotoClose(),
+                            object.getName(), object.getDivorces(), object.getDescription());
                     Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                    intent.putExtra(Intent.EXTRA_INDEX, positionItem);
+                    intent.putExtra("LOL", detailObject);
                     startActivity(intent);
                 }
             });
             rvBridges.setAdapter(adapter);
-        }else{
-            Log.d(TAG,"Movies response null");
+        } else {
+            Log.d(TAG, "Bridges response null");
         }
     }
 
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        if(id == R.id.search){
+        if (id == R.id.search) {
             showToast("Search Clicked");
             Intent intent = new Intent(this, DetailActivity.class);
             startActivity(intent);
