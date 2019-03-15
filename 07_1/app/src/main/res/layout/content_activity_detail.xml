@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".DetailActivity"
+    tools:context=".main.DetailActivity"
     tools:showIn="@layout/activity_detail">
 
     <android.support.v7.widget.CardView
@@ -21,9 +21,7 @@
                 android:id="@+id/statusSmallIV"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_brige_late"
-                android:layout_marginLeft="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_margin="16dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:contentDescription="Most" />
@@ -58,9 +56,27 @@
                 android:textStyle="normal"
                 app:layout_constraintTop_toBottomOf="@id/nameDetailTV"
                 app:layout_constraintLeft_toRightOf="@id/statusSmallIV"/>
+            <TextView
+                android:id="@+id/description_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:lineSpacingExtra="8sp"
+                android:padding="4dp"
+                android:layout_margin="8dp"
+                android:text="Время закрытия"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:layout_constraintTop_toBottomOf="@id/divorce_textView"
+                app:layout_constraintLeft_toLeftOf="parent"
+                />
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>
+
+
+
+
 
 
 </android.support.v4.widget.NestedScrollView>

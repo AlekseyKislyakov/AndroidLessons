@@ -16,7 +16,6 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import kislyakov.a07_1.DetailActivity;
 import kislyakov.a07_1.DetailObject;
 import kislyakov.a07_1.R;
 import kislyakov.a07_1.adapters.BridgesAdapter;
