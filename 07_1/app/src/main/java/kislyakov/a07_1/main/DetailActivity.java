@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 
 import kislyakov.a07_1.DetailObject;
 import kislyakov.a07_1.R;
+import kislyakov.a07_1.TimePickerActivity;
 import kislyakov.a07_1.adapters.BridgesAdapter;
 import kislyakov.a07_1.models.Divorce;
 
@@ -61,12 +62,13 @@ public class DetailActivity extends AppCompatActivity {
             }
             String divorces = temp.DivorceConverter(detailObject.getDivorces());
             divorceTV.setText(divorces);
-            CharSequence styledText = detailObject.getBridgeDescription();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 decriptionTV.setText(Html.fromHtml(detailObject.getBridgeDescription(), Html.FROM_HTML_MODE_COMPACT));
             } else {
                 decriptionTV.setText(Html.fromHtml(detailObject.getBridgeDescription()));
             }
+            Intent intent = new Intent(this, TimePickerActivity.class);
+            startActivity(intent);
         } else {
             nameTV.setText("Ты долбаеб");
         }

@@ -46,4 +46,16 @@
 
     <include layout="@layout/content_activity_detail" />
 
+    <Button
+        android:id="@+id/detail_reminder_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:background="#3de095"
+        android:paddingLeft="100dp"
+        android:drawableLeft="@drawable/ic_kolocol_off"
+        android:text="Напомнить"
+        android:textColor="#ffffff"
+        android:paddingRight="100dp"/>
+
 </android.support.design.widget.CoordinatorLayout>
