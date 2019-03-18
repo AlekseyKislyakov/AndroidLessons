@@ -124,9 +124,7 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
 
         int id = item.getItemId();
         if (id == R.id.search) {
-            showToast("Search Clicked");
-            Intent intent = new Intent(this, DetailActivity.class);
-            startActivity(intent);
+
         }
 
         return super.onOptionsItemSelected(item);

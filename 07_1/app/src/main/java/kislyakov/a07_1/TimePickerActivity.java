@@ -1,5 +1,6 @@
 package kislyakov.a07_1;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 public class TimePickerActivity extends AppCompatActivity {
     private int timeToRemind = 15;
+
+    private TextView bridgeNameTextView;
 
     private TextView textView15min;
     private TextView textView30min;
@@ -26,6 +29,8 @@ public class TimePickerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_picker);
+        bridgeNameTextView = findViewById(R.id.time_picker_bridge_name);
+
         textView15min = findViewById(R.id.time_picker_15min);
         textView30min = findViewById(R.id.time_picker_30min);
         textView45min = findViewById(R.id.time_picker_45min);
@@ -36,10 +41,21 @@ public class TimePickerActivity extends AppCompatActivity {
         okButton = findViewById(R.id.time_picker_ok_button);
         cancelButton = findViewById(R.id.time_picker_cancel_button);
 
+        Bundle extras = getIntent().getExtras();
+
+        if(extras == null) {
+
+        } else {
+            bridgeNameTextView.setText(extras.getString(Intent.EXTRA_COMPONENT_NAME));
+        }
+
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent();
+                intent.putExtra(Intent.EXTRA_INDEX, timeToRemind);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
 

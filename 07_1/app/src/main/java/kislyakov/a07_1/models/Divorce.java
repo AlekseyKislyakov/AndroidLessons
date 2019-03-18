@@ -114,4 +114,19 @@ public class Divorce implements Serializable {
         return state;
     }
 
+    public Date TimestrToCalendar(String timeStr){
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+        Date result = new Date();
+        try {
+            result.setMinutes(sdf.parse(timeStr).getMinutes());
+            result.setHours(sdf.parse(timeStr).getHours());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
 }
