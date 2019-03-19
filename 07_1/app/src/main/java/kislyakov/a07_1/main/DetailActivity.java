@@ -1,9 +1,14 @@
 package kislyakov.a07_1.main;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -13,10 +18,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
+import kislyakov.a07_1.AlertReceiver;
 import kislyakov.a07_1.DetailObject;
 import kislyakov.a07_1.R;
 import kislyakov.a07_1.TimePickerActivity;
@@ -45,6 +54,16 @@ public class DetailActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_detail);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_detail);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.toolbar_layout);
+        collapsingToolbarLayout.setTitleEnabled(false);
+
+
         nameTV = findViewById(R.id.nameDetailTV);
         divorceTV = findViewById(R.id.divorce_textView);
         decriptionTV = findViewById(R.id.description_textView);
@@ -58,6 +77,7 @@ public class DetailActivity extends AppCompatActivity {
             final DetailObject detailObject = (DetailObject) getIntent().getParcelableExtra("LOL");
             Divorce temp = new Divorce();
             divorceList = detailObject.getDivorces();
+
             int stateBridge = temp.DivorceState(detailObject.getDivorces());
             if (stateBridge == 1) {
                 bridgeStateIV.setBackgroundResource(R.drawable.ic_brige_normal);
@@ -66,6 +86,7 @@ public class DetailActivity extends AppCompatActivity {
                         .load("http://gdemost.handh.ru/" + detailObject.getPictureOpen())
                         .into(mainPicture);
                 nameTV.setText(detailObject.getBridgeName());
+
             } else if (stateBridge == 0) {
                 bridgeStateIV.setBackgroundResource(R.drawable.ic_brige_soon);
                 Glide
@@ -106,34 +127,44 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK){
-            int name = data.getIntExtra(Intent.EXTRA_INDEX, 0);
+            int dataIntExtra = data.getIntExtra(Intent.EXTRA_INDEX, 0);
             Calendar now = Calendar.getInstance();
             Divorce temp = new Divorce();
 
             boolean reminderSetFlag = false;
-
+            Calendar start = Calendar.getInstance();
+            start.set(Calendar.SECOND, 0);
             for (int i = 0; i < divorceList.size(); i++)
             {
-                Calendar start = Calendar.getInstance();
                 start.setTime(temp.TimestrToCalendar(divorceList.get(i).getStart()));
-                start.add(Calendar.MINUTE,-1*name);
-                if(start.before(now)){
+                start.add(Calendar.MINUTE,-1*dataIntExtra);
+                if(now.before(start)){
                     reminderSetFlag = true;
+                    break;
                 }
             }
 
             if(!reminderSetFlag){
-                Calendar start = Calendar.getInstance();
+                start = Calendar.getInstance();
                 start.setTime(temp.TimestrToCalendar(divorceList.get(0).getStart()));
                 start.add(Calendar.DATE,1);
-                start.add(Calendar.MINUTE,-1*name);
-                if(start.before(now)){
-                    reminderSetFlag = true;
-                }
+                start.add(Calendar.MINUTE,-1*dataIntExtra);
             }
-            remindButton.setText("За " + name + " минут");
+            Date correct = new Date(start.getTimeInMillis()-10800000);
+            start.setTime(correct);
+            start = Calendar.getInstance();
+            startAlarm(start);
 
+            remindButton.setText("За " + dataIntExtra + " минут");
         }
+    }
+
+    private void startAlarm(Calendar c) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
     }
 }
 

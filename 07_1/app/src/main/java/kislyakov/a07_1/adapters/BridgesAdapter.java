@@ -48,7 +48,7 @@ public class BridgesAdapter extends RecyclerView.Adapter<BridgesAdapter.BridgesH
         BridgesHolder mh = new BridgesHolder(v);
         return mh;
     }
-
+    
 
     @Override
     public void onBindViewHolder(BridgesHolder holder, int position) {

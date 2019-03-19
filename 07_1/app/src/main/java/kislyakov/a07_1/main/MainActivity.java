@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
                             object.getName(), object.getDivorces(), object.getDescription());
                     Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                     intent.putExtra("LOL", detailObject);
-                    startActivity(intent);
+                    startActivityForResult(intent, 1);
                 }
             });
             rvBridges.setAdapter(adapter);
