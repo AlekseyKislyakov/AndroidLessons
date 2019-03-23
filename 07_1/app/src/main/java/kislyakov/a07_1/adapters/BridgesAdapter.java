@@ -1,23 +1,20 @@
 package kislyakov.a07_1.adapters;
 
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
+import kislyakov.a07_1.classes.AlertReceiver;
 import kislyakov.a07_1.R;
 import kislyakov.a07_1.models.Divorce;
 import kislyakov.a07_1.models.Object;
@@ -31,6 +28,8 @@ public class BridgesAdapter extends RecyclerView.Adapter<BridgesAdapter.BridgesH
     List<Object> bridgeList;
     Context context;
     final OnItemClickListener listener;
+    boolean alarmUp = false;
+
 
     public interface OnItemClickListener {
         void onItemClick(int positionItem);
@@ -48,7 +47,11 @@ public class BridgesAdapter extends RecyclerView.Adapter<BridgesAdapter.BridgesH
         BridgesHolder mh = new BridgesHolder(v);
         return mh;
     }
-    
+
+    public void updateAdapter(){
+
+        notifyDataSetChanged();
+    }
 
     @Override
     public void onBindViewHolder(BridgesHolder holder, int position) {
@@ -62,7 +65,19 @@ public class BridgesAdapter extends RecyclerView.Adapter<BridgesAdapter.BridgesH
 
         holder.bridgeTime.setText(divorcesStr);
 
-        holder.kolokolBridge.setBackgroundResource(R.drawable.ic_kolocol_on);
+        alarmUp = (PendingIntent.getBroadcast(context, position,
+                new Intent(this.context, AlertReceiver.class),
+                PendingIntent.FLAG_NO_CREATE) != null);
+
+        if (alarmUp){
+            Log.d("myTag", "Alarm is already active");
+            holder.kolokolBridge.setBackgroundResource(R.drawable.ic_kolocol_on);
+        }
+        else {
+            holder.kolokolBridge.setBackgroundResource(R.drawable.ic_kolocol_off);
+        }
+
+
         if(openState > 0){
             holder.ivBridgeStatus.setBackgroundResource(R.drawable.ic_brige_normal);
         }

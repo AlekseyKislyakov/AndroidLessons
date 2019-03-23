@@ -1,14 +1,17 @@
-package kislyakov.a07_1;
+package kislyakov.a07_1.activities;
 
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import kislyakov.a07_1.R;
 
 public class TimePickerActivity extends AppCompatActivity {
     private int timeToRemind = 15;
@@ -54,6 +57,7 @@ public class TimePickerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.putExtra(Intent.EXTRA_INDEX, timeToRemind);
+                Log.d("LOL","Alarm started");
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -62,9 +66,13 @@ public class TimePickerActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                Intent intent = new Intent();
+                Log.d("LOL","Alarm stopped");
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
+
     }
 
     public void timePicker15min(View view) {

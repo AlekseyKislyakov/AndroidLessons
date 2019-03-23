@@ -4,8 +4,8 @@
 
     <item
         android:id="@+id/search"
-        android:title="Search"
-        android:icon="@drawable/ic_brige_soon"
+        android:title="Go to map"
+        android:icon="@drawable/ic_map_white_24dp"
         app:showAsAction="ifRoom"
         />
 </menu>

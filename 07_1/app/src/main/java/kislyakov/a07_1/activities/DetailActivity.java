@@ -1,4 +1,4 @@
-package kislyakov.a07_1.main;
+package kislyakov.a07_1.activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -10,7 +10,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,13 +23,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
-import kislyakov.a07_1.AlertReceiver;
-import kislyakov.a07_1.DetailObject;
+import kislyakov.a07_1.classes.AlertReceiver;
+import kislyakov.a07_1.models.DetailObject;
 import kislyakov.a07_1.R;
-import kislyakov.a07_1.TimePickerActivity;
-import kislyakov.a07_1.adapters.BridgesAdapter;
 import kislyakov.a07_1.models.Divorce;
 
 public class DetailActivity extends AppCompatActivity {
@@ -45,6 +42,9 @@ public class DetailActivity extends AppCompatActivity {
 
     private List<Divorce> divorceList;
 
+    private DetailObject detailObjectforPI;
+
+    private boolean reminderSetFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +75,7 @@ public class DetailActivity extends AppCompatActivity {
 
         if (parentIntent.hasExtra("LOL")) {
             final DetailObject detailObject = (DetailObject) getIntent().getParcelableExtra("LOL");
+            detailObjectforPI = detailObject;
             Divorce temp = new Divorce();
             divorceList = detailObject.getDivorces();
 
@@ -115,7 +116,7 @@ public class DetailActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(), TimePickerActivity.class);
                     intent.putExtra(Intent.EXTRA_COMPONENT_NAME, detailObject.getBridgeName());
-                    startActivityForResult(intent,1);
+                    startActivityForResult(intent, 1);
                 }
             });
 
@@ -124,47 +125,91 @@ public class DetailActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, TimePickerActivity.class);
+        intent.putExtra("reminder_result", reminderSetFlag);
+        finish();
+        // code here to show dialog
+        super.onBackPressed();  // optional depending on your needs
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK){
+        if (resultCode == RESULT_OK) {
             int dataIntExtra = data.getIntExtra(Intent.EXTRA_INDEX, 0);
             Calendar now = Calendar.getInstance();
             Divorce temp = new Divorce();
 
-            boolean reminderSetFlag = false;
+            reminderSetFlag = false;
             Calendar start = Calendar.getInstance();
             start.set(Calendar.SECOND, 0);
-            for (int i = 0; i < divorceList.size(); i++)
-            {
+            String divorceTime = "";
+            for (int i = 0; i < divorceList.size(); i++) {
                 start.setTime(temp.TimestrToCalendar(divorceList.get(i).getStart()));
-                start.add(Calendar.MINUTE,-1*dataIntExtra);
-                if(now.before(start)){
+                divorceTime = divorceList.get(i).getStart();
+                start.add(Calendar.MINUTE, -1 * dataIntExtra);
+                Date correct = new Date(start.getTimeInMillis() - 10800000);
+                start.setTime(correct);
+                if (now.before(start)) {
                     reminderSetFlag = true;
                     break;
                 }
             }
 
-            if(!reminderSetFlag){
+            if (!reminderSetFlag) {
                 start = Calendar.getInstance();
                 start.setTime(temp.TimestrToCalendar(divorceList.get(0).getStart()));
-                start.add(Calendar.DATE,1);
-                start.add(Calendar.MINUTE,-1*dataIntExtra);
+                start.add(Calendar.DATE, 1);
+                divorceTime = divorceList.get(0).getStart();
+                start.add(Calendar.MINUTE, -1 * dataIntExtra);
+
             }
-            Date correct = new Date(start.getTimeInMillis()-10800000);
-            start.setTime(correct);
-            start = Calendar.getInstance();
-            startAlarm(start);
+            //start = Calendar.getInstance();
+            String bridgeName = detailObjectforPI.getBridgeName();
+
+            startAlarm(start, bridgeName, divorceTime, detailObjectforPI.getPosition());
+
+            DateFormat sdf = new SimpleDateFormat();
+            Log.d("LOL","Alarm will start on " + sdf.format(new Date(start.getTimeInMillis()+15000)));
 
             remindButton.setText("За " + dataIntExtra + " минут");
+        } else if (resultCode == RESULT_CANCELED) {
+            boolean alarmUp = (PendingIntent.getBroadcast(this, detailObjectforPI.getPosition(),
+                    new Intent(this, AlertReceiver.class),
+                    PendingIntent.FLAG_NO_CREATE) != null);
+
+            if (alarmUp) {
+
+                stopAlarm(detailObjectforPI.getPosition());
+                reminderSetFlag = false;
+                remindButton.setText("НАПОМНИТЬ");
+            } else {
+                Log.d("myTag", "There is no alarm at" + detailObjectforPI.getPosition());
+            }
+
         }
     }
 
-    private void startAlarm(Calendar c) {
+    public void startAlarm(Calendar c, String name, String divorce, int position) {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+        intent.putExtra("bridge_name", name);
+        intent.putExtra("divorce_time", divorce);
+        intent.putExtra("item_position", position);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, position, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+    }
+
+    public void stopAlarm(int position) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, position, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntent.cancel();
+        alarmManager.cancel(pendingIntent);
+        Log.d("LOL", "Alarm stopped infa 100");
     }
 }
 

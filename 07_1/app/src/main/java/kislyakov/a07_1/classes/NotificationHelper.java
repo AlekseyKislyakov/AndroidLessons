@@ -1,4 +1,4 @@
-package kislyakov.a07_1;
+package kislyakov.a07_1.classes;
 
 import android.annotation.TargetApi;
 import android.app.NotificationChannel;
@@ -38,10 +38,10 @@ public class NotificationHelper extends ContextWrapper {
         return mManager;
     }
 
-    public NotificationCompat.Builder getChannelNotification() {
+    public NotificationCompat.Builder getChannelNotification(String contentTitle, String divorceTime) {
         return new NotificationCompat.Builder(getApplicationContext(), channelID)
-                .setContentTitle("Alarm!")
-                .setContentText("Your AlarmManager is working.")
+                .setContentTitle(contentTitle)
+                .setContentText("Ваш мост закроется в " + divorceTime)
                 .setSmallIcon(R.drawable.ic_brige_soon);
     }
 }

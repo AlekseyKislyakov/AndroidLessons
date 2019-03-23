@@ -16,8 +16,10 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import kislyakov.a07_1.DetailObject;
+import kislyakov.a07_1.models.DetailObject;
+import kislyakov.a07_1.activities.MapsActivity;
 import kislyakov.a07_1.R;
+import kislyakov.a07_1.activities.DetailActivity;
 import kislyakov.a07_1.adapters.BridgesAdapter;
 import kislyakov.a07_1.models.BridgeResponse;
 import kislyakov.a07_1.models.Object;
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
         setupMVP();
         setupViews();
         getBridgeList();
+
     }
 
 
@@ -92,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
                 public void onItemClick(int positionItem) {
                     Object object = bridgeResponse.getObjects().get(positionItem);
                     DetailObject detailObject = new DetailObject(object.getPhotoOpen(), object.getPhotoClose(),
-                            object.getName(), object.getDivorces(), object.getDescription());
+                            object.getName(), object.getDivorces(), object.getDescription(), positionItem);
                     Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                     intent.putExtra("LOL", detailObject);
                     startActivityForResult(intent, 1);
@@ -111,11 +114,10 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
 
     }
 
-    //Added in Part 2 of the series
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -124,9 +126,19 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
 
         int id = item.getItemId();
         if (id == R.id.search) {
-
+            Intent intent = new Intent(this, MapsActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) {return;}
+        boolean name = data.getBooleanExtra("reminder_result", false);
+        adapter.notifyDataSetChanged();
+
+
     }
 }

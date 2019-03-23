@@ -1,4 +1,4 @@
-package kislyakov.a07_1;
+package kislyakov.a07_1.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,8 +6,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import kislyakov.a07_1.models.Divorce;
 
 public class DetailObject implements Parcelable {
 
@@ -18,15 +16,17 @@ public class DetailObject implements Parcelable {
     private String bridgeName = new String(); // name on the bridge
     private List<Divorce> bridgeDivorce  = new ArrayList<>(); // string containing divorce periods// 2 = open; 1 = near; 0 = close.
     private String description= new String();
+    private int position = 0;
 
 
     public DetailObject(String bigPictureLinkOpen, String bigPictureLinkClosed,
-                        String bridgeName, List<Divorce> bridgeDivorce, String description) {
+                        String bridgeName, List<Divorce> bridgeDivorce, String description, int position) {
         this.bigPictureLinkOpen = bigPictureLinkOpen;
         this.bigPictureLinkClosed = bigPictureLinkClosed;
         this.bridgeName = bridgeName;
         this.bridgeDivorce = bridgeDivorce;
         this.description = description;
+        this.position = position;
     }
 
     public int describeContents() {
@@ -41,6 +41,7 @@ public class DetailObject implements Parcelable {
         parcel.writeString(bridgeName);
         parcel.writeList(bridgeDivorce);
         parcel.writeString(description);
+        parcel.writeInt(position);
     }
 
     public static final Parcelable.Creator<DetailObject> CREATOR = new Parcelable.Creator<DetailObject>() {
@@ -63,6 +64,7 @@ public class DetailObject implements Parcelable {
         bridgeName = parcel.readString();
         parcel.readList(bridgeDivorce,Divorce.class.getClassLoader());
         description = parcel.readString();
+        position = parcel.readInt();
     }
 
     public String getPictureOpen(){
@@ -83,6 +85,10 @@ public class DetailObject implements Parcelable {
 
     public String getBridgeDescription(){
         return description;
+    }
+
+    public int getPosition(){
+        return position;
     }
 
 }
