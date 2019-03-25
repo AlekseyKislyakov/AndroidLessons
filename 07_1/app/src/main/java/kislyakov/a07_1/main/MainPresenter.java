@@ -32,7 +32,7 @@ public class MainPresenter implements MainPresenterInterface {
 
     public Observable<BridgeResponse> getObservable(){
         return NetworkClient.getRetrofit().create(NetworkInterface.class)
-                            .getMovies("")
+                            .getBridges("")
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread());
     }

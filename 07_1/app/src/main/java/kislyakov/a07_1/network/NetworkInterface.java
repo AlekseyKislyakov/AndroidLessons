@@ -13,7 +13,7 @@ import retrofit2.http.Query;
 public interface NetworkInterface {
 
     @GET("api/v1/bridges/?format=json")
-    Observable<BridgeResponse> getMovies(@Query("api_key") String api_key);
+    Observable<BridgeResponse> getBridges(@Query("api_key") String api_key);
 
 
 }

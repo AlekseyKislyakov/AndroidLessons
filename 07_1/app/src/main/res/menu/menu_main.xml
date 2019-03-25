@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/search"
+        android:id="@+id/map_item"
         android:title="Go to map"
         android:icon="@drawable/ic_map_white_24dp"
         app:showAsAction="ifRoom"

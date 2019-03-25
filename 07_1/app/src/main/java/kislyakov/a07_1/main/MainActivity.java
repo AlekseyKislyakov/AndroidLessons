@@ -2,6 +2,7 @@ package kislyakov.a07_1.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
     private String TAG = "MainActivity";
     RecyclerView.Adapter adapter;
     MainPresenter mainPresenter;
+    BridgeResponse bridgeResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,19 +91,27 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
     @Override
     public void displayBridges(final BridgeResponse bridgeResponse) {
         if (bridgeResponse != null) {
-            //Log.d(TAG,movieResponse.getResults().get(1).getTitle());
-            adapter = new BridgesAdapter(bridgeResponse.getObjects(), MainActivity.this, new BridgesAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(int positionItem) {
-                    Object object = bridgeResponse.getObjects().get(positionItem);
-                    DetailObject detailObject = new DetailObject(object.getPhotoOpen(), object.getPhotoClose(),
-                            object.getName(), object.getDivorces(), object.getDescription(), positionItem);
-                    Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                    intent.putExtra("LOL", detailObject);
-                    startActivityForResult(intent, 1);
-                }
+            this.bridgeResponse = bridgeResponse;
+            adapter = new BridgesAdapter(bridgeResponse.getObjects(), MainActivity.this, positionItem -> {
+                Object object = bridgeResponse.getObjects().get(positionItem);
+                DetailObject detailObject = new DetailObject(object.getPhotoOpen(), object.getPhotoClose(),
+                        object.getName(), object.getDivorces(), object.getDescription(), positionItem);
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                intent.putExtra("LOL", detailObject);
+                startActivityForResult(intent, 1);
             });
             rvBridges.setAdapter(adapter);
+
+            Handler handler = new Handler();
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    adapter.notifyDataSetChanged();
+                    handler.postDelayed(this, 15000);
+                }
+            };
+
+            handler.post(runnable);
         } else {
             Log.d(TAG, "Bridges response null");
         }
@@ -125,9 +135,11 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        if (id == R.id.search) {
-            Intent intent = new Intent(this, MapsActivity.class);
-            startActivity(intent);
+        if (id == R.id.map_item) {
+            /*Intent intent = new Intent(this, MapsActivity.class);
+            intent.putExtra("bridges", bridgeResponse);
+            startActivity(intent);*/
+            Toast.makeText(this,"TO BE DONE LATER", Toast.LENGTH_LONG).show();
         }
 
         return super.onOptionsItemSelected(item);
