@@ -19,9 +19,7 @@ import kislyakov.a07_1.R;
 import kislyakov.a07_1.models.Divorce;
 import kislyakov.a07_1.models.Object;
 
-/**
- * Created by anujgupta on 26/12/17.
- */
+
 
 public class BridgesAdapter extends RecyclerView.Adapter<BridgesAdapter.BridgesHolder> {
 
