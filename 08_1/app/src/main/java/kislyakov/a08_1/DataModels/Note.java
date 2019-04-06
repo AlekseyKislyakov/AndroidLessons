@@ -19,7 +19,7 @@ public class Note {
     @ColumnInfo(name = "last_name")
     private String noteText;
 
-    @Ignore
+    @ColumnInfo(name = "note_color")
     private String noteColor;
 
     @Ignore

@@ -41,4 +41,7 @@ dependencies {
 
     // Room with RxJava support
     implementation 'android.arch.persistence.room:rxjava2:1.1.1'
+
+    //Color picker
+    implementation 'petrov.kristiyan:colorpicker-library:1.1.4'
 }

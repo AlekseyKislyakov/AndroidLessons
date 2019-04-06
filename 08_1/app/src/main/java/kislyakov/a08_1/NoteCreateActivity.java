@@ -1,19 +1,29 @@
 package kislyakov.a08_1;
 
 import android.arch.persistence.room.Room;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import kislyakov.a08_1.DataModels.Note;
 import kislyakov.a08_1.DataModels.NoteDatabase;
+import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class NoteCreateActivity extends AppCompatActivity {
 
@@ -84,6 +94,7 @@ public class NoteCreateActivity extends AppCompatActivity {
             returnIntent.putExtra("note_id", currentNote.getNoteId());
             returnIntent.putExtra("note_title", noteTitleEditText.getText().toString());
             returnIntent.putExtra("note_text", noteTextEditText.getText().toString());
+            returnIntent.putExtra("note_color", currentNote.getNoteColor());
             setResult(1, returnIntent);
             finish();
             super.onBackPressed();
@@ -94,12 +105,67 @@ public class NoteCreateActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
+            case android.R.id.home:{
                 onBackPressed();
-                return true;
+                break;
+            }
+            case R.id.action_colorize:{
+                LinearLayout layout = findViewById(R.id.color_picker_layout);
+                final ColorPicker colorPicker = new ColorPicker(this);
+                ArrayList<String> colors = new ArrayList<>();
+                colors.add("#456789");
+                colors.add("#66aaaa");
+                colors.add("#ff8888");
+                colors.add("#dd88dd");
+                colors.add("#8800ff");
+                colors.add("#44ffff");
+                colors.add("#88ff88");
+                colors.add("#aa44aa");
+                colors.add("#ffff00");
+                colors.add("#ff00ff");
+                colorPicker.setColors(colors)
+                        .setColumns(5)
+                        .disableDefaultButtons(true)
+                        .setDefaultColorButton(0xff00ff)
+                        .setTitle("Выберите цвет заметки")
+                        .setRoundColorButton(true)
+                        .setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
+                            @Override
+                            public void onChooseColor(int position, int color) {
+
+                            }
+
+                            @Override
+                            public void onCancel() {
+
+                            }
+                        })
+                        .addListenerButton("OK", (v, position, color) -> {
+                            if(position == -1){
+                                colorPicker.dismissDialog();
+                            }
+                            else {
+                                Log.d("myTag", Integer.toHexString(color));
+                                currentNote.setNoteColor(colors.get(position));
+                                colorPicker.dismissDialog();
+                            }
+
+                        })
+                        .addListenerButton("ОТМЕНА", (v, position, color) ->
+                                colorPicker.dismissDialog()).show();
+
+            }
+            return true;
+
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_note_create, menu);
+        return true;
     }
 
 }

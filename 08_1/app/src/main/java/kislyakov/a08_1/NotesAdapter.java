@@ -1,7 +1,9 @@
 package kislyakov.a08_1;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -63,6 +65,9 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesHolder>
             holder.noteTitle.setText(Html.fromHtml(result, Html.FROM_HTML_MODE_COMPACT));
         } else {
             holder.noteTitle.setText(Html.fromHtml(result));
+        }
+        if(notesList.get(position).getNoteColor()!=null){
+            holder.itemView.setBackgroundColor(Color.parseColor(notesList.get(position).getNoteColor()));
         }
         holder.bind(position, itemClickListener, longClickListener);
     }

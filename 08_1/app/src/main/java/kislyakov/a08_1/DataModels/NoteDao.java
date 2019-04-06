@@ -31,4 +31,7 @@ public interface NoteDao {
     @Query("SELECT * FROM notes_table WHERE noteId = :id")
     Flowable<Note> getById(long id);
 
+    @Query("SELECT * FROM notes_table WHERE first_name LIKE :header OR last_name LIKE :text")
+    List<Note> searchQuery(String header, String text);
+
 }
