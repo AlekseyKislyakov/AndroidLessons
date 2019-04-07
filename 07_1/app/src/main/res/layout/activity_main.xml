@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
-        tools:context=".main.MainActivity"
+        tools:context=".mvp.MainActivity"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
         <include

@@ -18,7 +18,7 @@
         <activity android:name=".activities.TimePickerActivity"></activity>
         <activity
             android:name=".activities.DetailActivity"
-            android:parentActivityName=".main.MainActivity"
+            android:parentActivityName=".mvp.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver android:name=".classes.AlertReceiver" />
@@ -35,7 +35,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".main.MainActivity"
+            android:name=".mvp.MainActivity"
             android:label="@string/title_activity_maps"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

@@ -1,5 +1,4 @@
-package kislyakov.a07_1.main;
-
+package kislyakov.a07_1.mvp;
 
 import android.util.Log;
 
@@ -11,10 +10,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-
-/**
- * Created by anujgupta on 26/12/17.
- */
 
 public class MainPresenter implements MainPresenterInterface {
 

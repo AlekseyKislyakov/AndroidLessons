@@ -1,4 +1,4 @@
-package kislyakov.a07_1.main;
+package kislyakov.a07_1.mvp;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +18,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import kislyakov.a07_1.models.DetailObject;
-import kislyakov.a07_1.activities.MapsActivity;
 import kislyakov.a07_1.R;
 import kislyakov.a07_1.activities.DetailActivity;
 import kislyakov.a07_1.adapters.BridgesAdapter;
@@ -34,9 +33,9 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
     private String TAG = "MainActivity";
     RecyclerView.Adapter adapter;
     MainPresenter mainPresenter;
