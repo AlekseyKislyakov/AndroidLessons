@@ -13,27 +13,27 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyService extends Service {
+public class TemperatureService extends Service {
 
     private final IBinder binder = new LocalBinder();
 
     private ServiceCallbacks serviceCallbacks = null;
 
-    public MyService() {
+    public TemperatureService() {
 
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         startWeatherUpdate();
-        Log.d("myTag", "onBind MyService");
+        Log.d("myTag", "onBind TemperatureService");
         return binder;
     }
 
     public class LocalBinder extends Binder {
-        MyService getService() {
+        TemperatureService getService() {
             // Return this instance of LocalService so clients can call public methods
-            return MyService.this;
+            return TemperatureService.this;
         }
     }
 

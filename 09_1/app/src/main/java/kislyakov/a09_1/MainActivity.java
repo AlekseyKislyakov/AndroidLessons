@@ -1,57 +1,130 @@
 package kislyakov.a09_1;
 
+import android.Manifest;
+import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import kislyakov.a09_1.models.Main;
 
 
 public class MainActivity extends AppCompatActivity implements ServiceCallbacks{
 
-    private MyService myService;
+    private TemperatureService temperatureService;
     private boolean bound = false;
-    TextView temperatureTV;
+
     ServiceConnection serviceConnection;
+    Button fileDownloadButton;
+    TextView temperatureTV;
+    ImageView fileDownloadImageView;
+
+    private BroadcastReceiver broadcastReceiver;
 
     @Nullable
-    MyService.LocalBinder binder;
+    TemperatureService.LocalBinder binder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        temperatureTV = findViewById(R.id.temp_textview);
+        temperatureTV = findViewById(R.id.temperature_textview);
+        fileDownloadButton = findViewById(R.id.filedownload_button);
+        fileDownloadImageView = findViewById(R.id.filedownload_imageview);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            fileDownloadButton.setText("Please allow memory usage");
+        }
+
         serviceConnection = new ServiceConnection() {
 
             @Override
             public void onServiceConnected(ComponentName className, IBinder iBinder) {
-                // cast the IBinder and get MyService instance
+                // cast the IBinder and get TemperatureService instance
                 Log.d("myTag", "MainActivity onServiceConnected");
-                binder = (MyService.LocalBinder) iBinder;
-                myService = binder.getService();
+                binder = (TemperatureService.LocalBinder) iBinder;
+                temperatureService = binder.getService();
                 bound = true;// register
-                myService.setCallbacks(MainActivity.this);
+                temperatureService.setCallbacks(MainActivity.this);
             }
+
 
             @Override
             public void onServiceDisconnected(ComponentName arg0) {
                 bound = false;
             }
         };
-        Intent intent = new Intent(this, MyService.class);
-        getApplicationContext().bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+
+        fileDownloadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isServiceRunning(DownloadService.class)){
+                    Toast.makeText(getApplicationContext(), "Service is already running", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent downloadIntent = new Intent(getApplicationContext(), DownloadService.class);
+                    //startService(downloadIntent);
+                    ContextCompat.startForegroundService(getApplicationContext(), downloadIntent);
+                }
+
+            }
+        });
+
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.hasExtra("test")) {
+                    fileDownloadButton.setText("Downloading ... " + intent.getIntExtra("test", 0) + "%");
+                }
+                if (intent.hasExtra("zip")){
+                    fileDownloadButton.setText("Unzipping...");
+                }
+                if(intent.hasExtra("finish")){
+                    fileDownloadButton.setText("Download");
+                    Log.d("myTag", "Finish + " + intent.getStringExtra("finish"));
+                    Bitmap bmp = BitmapFactory.decodeFile(intent.getStringExtra("finish"));
+                    fileDownloadImageView.setImageBitmap(bmp);
+                }
+                Log.d("myTag", "RECEIVED!");
+            }
+        };
+
+        IntentFilter intFilter = new IntentFilter("LOL");
+        registerReceiver(broadcastReceiver, intFilter);
+
+    }
+    private boolean isServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        Intent intent = new Intent(this, TemperatureService.class);
+        getApplicationContext().bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
 
     }
 
@@ -60,8 +133,8 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks{
         super.onStop();
         // Unbind from service
         if (bound) {
-            //myService.setCallbacks(null); // unregister
-            unbindService(serviceConnection);
+            temperatureService.setCallbacks(null); // unregister
+            getApplicationContext().unbindService(serviceConnection);
             bound = false;
         }
     }
@@ -69,6 +142,6 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks{
     /** Callbacks for service binding, passed to bindService() */
     @Override
     public void startWeatherUpdate(String temperature) {
-        temperatureTV.setText(temperature);
+        temperatureTV.setText("Temperature " + temperature);
     }
 }
