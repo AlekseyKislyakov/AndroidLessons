@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.TimePickerActivity"
+    android:background="#49464b4f">
+    <android.support.v7.widget.CardView
+        android:layout_width="240dp"
+        android:layout_height="417dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <RelativeLayout
+            android:id="@+id/time_picker_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/time_picker_bridge_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_margin="20dp"
+                android:textStyle="bold"
+                android:text="LOL"/>
+
+            <TextView
+                android:id="@+id/time_picker_bridge_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="50dp"
+                android:layout_below="@+id/time_picker_bridge_name"
+                android:text="За сколько до закрытия моста Вас предупредить?"/>
+
+            <TextView
+                android:id="@+id/time_picker_15min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_below="@+id/time_picker_bridge_question"
+                android:layout_centerHorizontal="true"
+                android:textStyle="bold"
+                android:text="15 мин"
+                android:onClick="timePicker15min"/>
+
+            <TextView
+                android:id="@+id/time_picker_30min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_below="@+id/time_picker_15min"
+                android:layout_centerHorizontal="true"
+                android:text="30 мин"
+                android:onClick="timePicker30min"/>
+
+            <TextView
+                android:id="@+id/time_picker_45min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_below="@+id/time_picker_30min"
+                android:layout_centerHorizontal="true"
+                android:text="45 мин"
+                android:onClick="timePicker45min"/>
+
+            <Button
+                android:id="@+id/time_picker_ok_button"
+                android:layout_width="55dp"
+                android:layout_height="36dp"
+                android:background="#FFFFFF"
+                android:textColor="#3de095"
+                android:text="OK"
+                android:layout_margin="8dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"/>
+
+            <Button
+                android:id="@+id/time_picker_cancel_button"
+                android:layout_width="93dp"
+                android:layout_height="36dp"
+                android:background="#FFFFFF"
+                android:textColor="#3de095"
+                android:text="ОТМЕНИТЬ"
+                android:layout_margin="8dp"
+                android:layout_toLeftOf="@+id/time_picker_ok_button"
+                android:layout_alignParentBottom="true"/>
+            <View
+                android:id="@+id/time_picker_top_line"
+                android:layout_width="74dp"
+                android:layout_height="3dp"
+                android:background="#3de095"
+                android:layout_above="@id/time_picker_15min"
+                android:layout_centerHorizontal="true"/>
+            <View
+                android:id="@+id/time_picker_bottom_line"
+                android:layout_width="74dp"
+                android:layout_height="3dp"
+                android:background="#3de095"
+                android:layout_below="@id/time_picker_15min"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>
