@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import kislyakov.a10_2.classes.AlertReceiver;
 import kislyakov.a10_2.R;
+import kislyakov.a10_2.classes.AlertReceiver;
 import kislyakov.a10_2.models.Divorce;
 import kislyakov.a10_2.models.Object;
 
@@ -48,7 +48,7 @@ public class BridgesAdapter extends RecyclerView.Adapter<BridgesAdapter.BridgesH
         return mh;
     }
 
-    public void updateAdapter(){
+    public void updateAdapter() {
 
         notifyDataSetChanged();
     }
@@ -68,22 +68,19 @@ public class BridgesAdapter extends RecyclerView.Adapter<BridgesAdapter.BridgesH
                 new Intent(this.context, AlertReceiver.class),
                 PendingIntent.FLAG_NO_CREATE) != null);
 
-        if (alarmUp){
+        if (alarmUp) {
             Log.d("myTag", "Alarm is already active");
             holder.kolokolBridge.setBackgroundResource(R.drawable.ic_kolocol_on);
-        }
-        else {
+        } else {
             holder.kolokolBridge.setBackgroundResource(R.drawable.ic_kolocol_off);
         }
 
 
-        if(openState > 0){
+        if (openState > 0) {
             holder.ivBridgeStatus.setBackgroundResource(R.drawable.ic_brige_normal);
-        }
-        else if(openState == 0){
+        } else if (openState == 0) {
             holder.ivBridgeStatus.setBackgroundResource(R.drawable.ic_brige_soon);
-        }
-        else {
+        } else {
             holder.ivBridgeStatus.setBackgroundResource(R.drawable.ic_brige_late);
         }
         holder.bind(position, listener);
@@ -109,6 +106,7 @@ public class BridgesAdapter extends RecyclerView.Adapter<BridgesAdapter.BridgesH
             ivBridgeStatus = (ImageView) v.findViewById(R.id.bridgeStatusImage);
 
         }
+
         public void bind(final int positionItem, final OnItemClickListener listener) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -119,7 +117,6 @@ public class BridgesAdapter extends RecyclerView.Adapter<BridgesAdapter.BridgesH
         }
 
     }
-
 
 
 }

@@ -106,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
         // если пришло ОК
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 1) {
-
             Flowable.fromCallable(() -> {
                 Note temp = new Note(
                         data.getStringExtra("note_title"),
@@ -125,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                 return db.noteDao().getAll();
             }).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(notes -> UpdateTable(notes));
+                    .subscribe(this::UpdateTable);
 
         } else {
             Log.d("myTag", "error");

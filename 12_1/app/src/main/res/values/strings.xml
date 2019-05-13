@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">12_1</string>
+    <string name="error_network">Не удалось загрузить данные</string>
+    <string name="error_button_retry">Повторить</string>
+</resources>
