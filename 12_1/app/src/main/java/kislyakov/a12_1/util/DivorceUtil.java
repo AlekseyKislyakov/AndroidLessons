@@ -3,6 +3,8 @@ package kislyakov.a12_1.util;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -33,23 +35,24 @@ public class DivorceUtil {
     public static int divorceState(List<Divorce> divorcesList) {
 
         int state = 1;
-
-        final long MILLS_IN_DAY = 86400000;
         final long MILLS_IN_HOUR = 3600000;
-        final long MILLS_IN_3HOURS = 10800000;
 
-        Date now = Calendar.getInstance().getTime();
+        Calendar cal = Calendar.getInstance();
+        cal.set(1970,0,1);
+        Date now = cal.getTime();
 
-
-        Log.d("myTag", new Date((now.getTime() + MILLS_IN_3HOURS) % MILLS_IN_DAY).toString());
         for (Divorce divorce : divorcesList) {
-            if (divorce.getEnd().getTime() > ((now.getTime() + MILLS_IN_3HOURS) % MILLS_IN_DAY)
-                    && divorce.getStart().getTime() - (now.getTime() + MILLS_IN_3HOURS) < MILLS_IN_HOUR) {
+            Log.d("myTag", "NOW + " + now.toString());
+            Log.d("myTag", "START + " +divorce.getStart().toString());
+            Log.d("myTag", "END + " +divorce.getEnd().toString());
+
+            if (divorce.getEnd().after(now)
+                    && divorce.getStart().getTime() - now.getTime() < MILLS_IN_HOUR) {
                 state -= 1; // желтый мост
             }
 
-            if (divorce.getEnd().getTime() > ((now.getTime() + MILLS_IN_3HOURS) % MILLS_IN_DAY)
-                    && (now.getTime() + MILLS_IN_3HOURS) > divorce.getStart().getTime()) {
+            if (divorce.getEnd().after(now)
+                    && now.after(divorce.getStart())) {
                 state -= 2; // красный мост
             }
         }
