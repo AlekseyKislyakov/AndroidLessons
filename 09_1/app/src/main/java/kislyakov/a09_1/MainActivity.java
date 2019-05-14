@@ -14,6 +14,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,13 +24,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import kislyakov.a09_1.models.Main;
 
-
-public class MainActivity extends AppCompatActivity implements ServiceCallbacks{
+public class MainActivity extends AppCompatActivity implements ServiceCallbacks {
 
     private TemperatureService temperatureService;
     private boolean bound = false;
+    public static final int REQUEST_CODE_PERMISSION = 101;
 
     ServiceConnection serviceConnection;
     Button fileDownloadButton;
@@ -46,13 +46,18 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         temperatureTV = findViewById(R.id.temperature_textview);
-        fileDownloadButton = findViewById(R.id.filedownload_button);
         fileDownloadImageView = findViewById(R.id.filedownload_imageview);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            fileDownloadButton.setText("Please allow memory usage");
-        }
 
+        fileDownloadButton = findViewById(R.id.filedownload_button);
+
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED){
+            fileDownloadButton.setText("Request permission");
+            fileDownloadButton.setOnClickListener(l-> ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION));
+        }
+        else {
+            bindAndStartService();
+        }
         serviceConnection = new ServiceConnection() {
 
             @Override
@@ -72,19 +77,37 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks{
             }
         };
 
-        fileDownloadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isServiceRunning(DownloadService.class)){
-                    Toast.makeText(getApplicationContext(), "Service is already running", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Intent downloadIntent = new Intent(getApplicationContext(), DownloadService.class);
-                    //startService(downloadIntent);
-                    ContextCompat.startForegroundService(getApplicationContext(), downloadIntent);
-                }
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_PERMISSION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    bindAndStartService();
+                } else {
+                    Toast.makeText(this,"YOU HAVE DENIED THE REQUEST, TRY AGAIN", Toast.LENGTH_SHORT).show();
+                }
+                return;
             }
+        }
+    }
+
+    private void bindAndStartService() {
+        fileDownloadButton.setText("Download");
+        fileDownloadButton.setOnClickListener(l -> {
+            if (isServiceRunning(DownloadService.class)) {
+                Toast.makeText(getApplicationContext(), "Service is already running", Toast.LENGTH_SHORT).show();
+            } else {
+                fileDownloadButton.setText("Download initiated");
+                Intent downloadIntent = new Intent(getApplicationContext(), DownloadService.class);
+                //startService(downloadIntent);
+                ContextCompat.startForegroundService(getApplicationContext(), downloadIntent);
+            }
+
         });
 
         broadcastReceiver = new BroadcastReceiver() {
@@ -93,10 +116,10 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks{
                 if (intent.hasExtra("test")) {
                     fileDownloadButton.setText("Downloading ... " + intent.getIntExtra("test", 0) + "%");
                 }
-                if (intent.hasExtra("zip")){
+                if (intent.hasExtra("zip")) {
                     fileDownloadButton.setText("Unzipping...");
                 }
-                if(intent.hasExtra("finish")){
+                if (intent.hasExtra("finish")) {
                     fileDownloadButton.setText("Download");
                     Log.d("myTag", "Finish + " + intent.getStringExtra("finish"));
                     Bitmap bmp = BitmapFactory.decodeFile(intent.getStringExtra("finish"));
@@ -108,8 +131,8 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks{
 
         IntentFilter intFilter = new IntentFilter("LOL");
         registerReceiver(broadcastReceiver, intFilter);
-
     }
+
     private boolean isServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
@@ -139,7 +162,9 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks{
         }
     }
 
-    /** Callbacks for service binding, passed to bindService() */
+    /**
+     * Callbacks for service binding, passed to bindService()
+     */
     @Override
     public void startWeatherUpdate(String temperature) {
         temperatureTV.setText("Temperature " + temperature);

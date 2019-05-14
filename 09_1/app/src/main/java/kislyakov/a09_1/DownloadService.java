@@ -37,8 +37,6 @@ public class DownloadService extends Service {
         // stopped, so return
         Log.d("myTag", "Download onStart");
 
-
-
         Intent notificationIntent = new Intent(this, MainActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
@@ -82,7 +80,6 @@ public class DownloadService extends Service {
     private void downloadFile() {
         new Thread(new Runnable() {
             public void run() {
-
                 String fileName;
                 String folder;
                 int count;
