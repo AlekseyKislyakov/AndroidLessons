@@ -11,8 +11,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,14 +29,21 @@ import kislyakov.a07_1.models.Object;
 
 public class MainActivity extends AppCompatActivity implements MainViewInterface {
 
+    private static final int VIEW_LOADING = 0;
+    private static final int VIEW_DATA = 1;
+    private static final int VIEW_ERROR = 2;
+
     @BindView(R.id.rvBridges)
     RecyclerView rvBridges;
 
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
+    @BindView(R.id.viewFlipper)
+    ViewFlipper viewFlipper;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.buttonRetry)
+    Button buttonRetry;
 
     private String TAG = "MainActivity";
     RecyclerView.Adapter adapter;
@@ -61,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
     private void setupViews() {
         //Added in Part 2 of the series
         setSupportActionBar(toolbar);
+        buttonRetry.setOnClickListener(l -> getBridgeList());
         rvBridges.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -78,12 +88,12 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
 
     @Override
     public void showProgressBar() {
-        progressBar.setVisibility(View.VISIBLE);
+        viewFlipper.setDisplayedChild(VIEW_LOADING);
     }
 
     @Override
     public void hideProgressBar() {
-        progressBar.setVisibility(View.GONE);
+        viewFlipper.setDisplayedChild(VIEW_DATA);
     }
 
 
@@ -118,9 +128,8 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
 
     @Override
     public void displayError(String e) {
-
         showToast(e);
-
+        viewFlipper.setDisplayedChild(VIEW_ERROR);
     }
 
     @Override
